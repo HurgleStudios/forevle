@@ -18,23 +18,24 @@ let GREEN = 3;
 let gameInProgress = false;
 
 function resetGame() {
-    currentGuess = [];
-    nextLetter = 0;
-    gameid = 0;
-    score = 0;
-    games = [];
-    gameInProgress = false;
-    answers = [];
-    keyColors = [];
-
     let container = document.getElementById("game-grid");
     while (container.firstChild) {
         container.removeChild(container.firstChild);
     }
 
+    currentGuess = [];
+    nextLetter = 0;
+    gameid = 0;
+    score = 0;
+    games = [];
+    answers = [];
+    keyColors = [];
+    gameInProgress = false;
+
+    initGame();
     updateScore();
     updateKeys();
-    initGame(gameid++);
+    document.getElementById("game-grid").focus();
 }
 
 function newgame(e) {
@@ -46,23 +47,24 @@ function newgame(e) {
     resetGame();
 }
 
-function initGame(gid) {
+function initGame() {
     let thisGame = {
         answer: WORDS.splice(Math.floor(Math.random() * WORDS.length), 1).toString(),
         guessesRemaining: 7,
-        num: gid,
+        num: gameid,
     };
     games.push(thisGame);
     answers.push(thisGame.answer);
-    initBoard(gid);
+    initBoard();
+    gameid++;
 }
 
-function initBoard(gid) {
+function initBoard() {
     let container = document.getElementById("game-grid");
 
     let board = document.createElement("div");
     board.className = "game-board";
-    board.id = "game" + gid;
+    board.id = "game" + gameid;
     for (let i = 0; i < NUMBER_OF_GUESSES; i++) {
         let row = document.createElement("div")
         row.className = "letter-row"
@@ -256,7 +258,7 @@ function insertLetter(pressedKey) {
         return;
     }
     pressedKey = pressedKey.toLowerCase();
-    games.forEach(function(g) {
+    for (const g of games) {
         let gdoc = document.getElementById(`game${g.num}`);
 
         let row = gdoc.getElementsByClassName("letter-row")[NUMBER_OF_GUESSES - g.guessesRemaining];
@@ -264,9 +266,9 @@ function insertLetter(pressedKey) {
         animateCSS(box, "pulse");
         box.textContent = pressedKey;
         box.classList.add("filled-box");
-    });
-    currentGuess.push(pressedKey);
+    }
     nextLetter += 1;
+    currentGuess.push(pressedKey);
 }
 
 const animateCSS = (element, animation, prefix = 'animate__') =>
