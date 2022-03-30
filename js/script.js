@@ -17,13 +17,6 @@ let GREEN = 3;
 
 let gameInProgress = false;
 
-let bgColors = [
-    "whitesmoke",
-    "dimgrey",
-    "goldenrod",
-    "olivedrab"
-];
-
 function resetGame() {
     currentGuess = [];
     nextLetter = 0;
@@ -88,8 +81,25 @@ function initBoard(gid) {
 function shadeKeyBoard(letter, color) {
     for (const elem of document.getElementsByClassName("keyboard-button")) {
         if (elem.textContent === letter) {
-            elem.style.backgroundColor = color
-            break
+            elem.style.backgroundColor = "grey";
+            elem.classList.remove("green");
+            elem.classList.remove("yellow");
+            switch (color) {
+                case BLACK:
+                    elem.style.backgroundColor = "#110011";
+                    break;
+                case WHITE:
+                    elem.style.backgroundColor = "grey";
+                    break;
+                case GREEN:
+                    elem.style.backgroundColor = "#444444";
+                    elem.classList.add("green");
+                    break;
+                case YELLOW:
+                    elem.style.backgroundColor = "#444444";
+                    elem.classList.add("yellow");
+                    break;
+            }
         }
     }
 }
@@ -138,28 +148,33 @@ function checkGuess() {
             let letterPosition = rightGuess.indexOf(currentGuess[i])
                 // is letter in the correct guess
             if (letterPosition === -1) {
-                letterColor = 'dimgrey'
+                letterColor = BLACK;
             } else {
                 // now, letter is definitely in word
                 // if letter index and right guess index are the same
                 // letter is in the right position 
                 if (currentGuess[i] === rightGuess[i]) {
-                    // shade olivedrab 
-                    letterColor = 'olivedrab'
+                    // shade #009e73 
+                    letterColor = GREEN;
                 } else {
-                    // shade box goldenrod
-                    letterColor = 'goldenrod'
+                    // shade box #e69f00
+                    letterColor = YELLOW;
                 }
 
                 rightGuess[letterPosition] = "#"
             }
 
-            let delay = 250 * i
+            let delay = 250 * i;
             setTimeout(() => {
                 //flip box
-                animateCSS(box, 'flipInY')
-                    //shade box
-                box.style.backgroundColor = letterColor
+                animateCSS(box, 'flipInY');
+                //shade box
+                box.style.backgroundColor = "dimgrey";
+                if (letterColor == GREEN) {
+                    box.classList.add("green");
+                } else if (letterColor == YELLOW) {
+                    box.classList.add("yellow");
+                }
                 updateKeys();
             }, delay)
         }
@@ -203,8 +218,10 @@ function showWords() {
     for (let g of games) {
         let gdoc = document.getElementById(`game${g.num}`);
         let finalWord = document.createElement("h2");
+        finalWord.style.textAlign = "center";
         finalWord.textContent = g.answer.toUpperCase();
         //gdoc.insertBefore(finalWord, gdoc.firstChild);
+        gdoc.style.textAlign = "center";
         gdoc.appendChild(finalWord);
     }
 }
@@ -215,30 +232,22 @@ function updateScore() {
 }
 
 function updateKeys() {
+    let oldKeyColors = keyColors.slice();
     for (let i = 0; i < 26; i++) {
         keyColors[i] = WHITE;
     }
     for (const box of document.getElementsByClassName("letter-box")) {
         let letter = box.textContent;
-        let newColor = WHITE;
-        switch (box.style.backgroundColor) {
-            case "whitesmoke":
-                newColor = WHITE;
-                break;
-            case "dimgrey":
-                newColor = BLACK;
-                break;
-            case "goldenrod":
-                newColor = YELLOW;
-                break;
-            case "olivedrab":
-                newColor = GREEN;
-                break;
+        let newColor = BLACK;
+        if (box.classList.contains("green")) {
+            newColor = GREEN;
+        } else if (box.classList.contains("yellow")) {
+            newColor = YELLOW;
         }
         keyColors[letter.charCodeAt(0) - 97] = Math.max(keyColors[letter.charCodeAt(0) - 97], newColor);
     }
     for (let i = 0; i < 26; i++) {
-        shadeKeyBoard(String.fromCharCode(97 + i), bgColors[keyColors[i]]);
+        shadeKeyBoard(String.fromCharCode(97 + i), keyColors[i]);
     }
 }
 
@@ -319,7 +328,6 @@ document.getElementById("keyboard-cont").addEventListener("click", (e) => {
     document.dispatchEvent(new KeyboardEvent("keyup", { 'key': key }))
 })
 
-resetGame();
 window.onload = function() {
     document.getElementById("newgamebtn").addEventListener("click", newgame);
     let modal = document.getElementById("infomodal");
@@ -336,4 +344,5 @@ window.onload = function() {
             modal.style.display = "none";
         }
     });
+    resetGame();
 };

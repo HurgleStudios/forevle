@@ -35,7 +35,7 @@ h2 {
     display: inline-flex;
     align-items: flex-start;
     flex-direction: column;
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 .letter-row {
@@ -56,6 +56,7 @@ h2 {
     justify-content: center;
     align-items: center;
     text-transform: uppercase;
+    text-shadow: 2pt 2pt #110011;
 }
 
 .filled-box {
@@ -89,12 +90,15 @@ h2 {
     font-weight: 700;
     cursor: pointer;
     text-transform: uppercase;
-    background-color: whitesmoke;
+    background-color: grey;
+    text-shadow: 1pt 1pt #110011;
+    color: whitesmoke;
 }
 
 body {
-    font-family: 'Averia Sans Libre', cursive;
+    font-family: 'Averia Sans Libre', sans-serif;
     color: whitesmoke;
+    text-shadow: 1pt 1pt #110011;
     background-color: #110011;
 }
 
@@ -114,10 +118,12 @@ body {
     margin: auto;
     font-size: 2rem;
     padding: 1rem 1rem 0;
+    text-shadow: none;
 }
 
 .widebox button {
     font-size: 1.5rem;
+    text-shadow: none;
 }
 
 .wide {
@@ -128,8 +134,8 @@ body {
 
 .modal-header {
     padding: 2px 16px;
-    background-color: dimgrey;
-    color: whitesmoke;
+    background-color: lightgrey;
+    color: dimgrey;
 }
 
 .modal-body {
@@ -147,7 +153,7 @@ body {
     background-color: #fefefe;
     margin: auto;
     padding: 0;
-    border: 1px solid #888;
+    border: 1px solid dimgrey;
     width: 80%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     animation-name: animatetop;
@@ -177,10 +183,11 @@ body {
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.4);
     margin: auto;
+    text-shadow: 1pt 1pt #110011, -1pt 1pt #110011, 1pt -1pt #110011, -1pt -1pt #110011;
 }
 
 .modal-content {
-    background-color: grey;
+    background-color: #222222;
     color: whitesmoke;
     margin: 15% auto;
     padding: 20px;
@@ -201,4 +208,17 @@ body {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+.yellow {
+    background: repeating-linear-gradient( 45deg, rgba(230, 159, 0, 1), rgba(230, 159, 0, 1) 2px, rgba(230, 159, 0, 0) 2px, rgba(230, 159, 0, 0) 4px);
+}
+
+.green {
+    background: repeating-linear-gradient( 135deg, rgba(0, 158, 115, 1), rgba(0, 158, 115, 1) 2px, rgba(230, 159, 0, 0) 2px, rgba(230, 159, 0, 0) 4px);
+}
+
+.spaced {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
