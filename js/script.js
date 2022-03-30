@@ -35,10 +35,11 @@ function resetGame() {
     initGame();
     updateScore();
     updateKeys();
-    document.getElementById("game-grid").focus();
 }
 
 function newgame(e) {
+    e.preventDefault();
+    document.activeElement.blur();
     if (gameInProgress) {
         if (!confirm("Are you sure you want to start a new game?")) {
             return;
