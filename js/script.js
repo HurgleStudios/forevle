@@ -1,4 +1,4 @@
-import { WORDS } from "./words.js";
+import { VALIDGUESSES, WORDS } from "./words.js";
 
 const NUMBER_OF_GUESSES = 7;
 let currentGuess = [];
@@ -15,12 +15,43 @@ let BLACK = 1;
 let YELLOW = 2;
 let GREEN = 3;
 
+let gameInProgress = false;
+
 let bgColors = [
     "whitesmoke",
     "dimgrey",
     "goldenrod",
     "olivedrab"
 ];
+
+function resetGame() {
+    currentGuess = [];
+    nextLetter = 0;
+    gameid = 0;
+    score = 0;
+    games = [];
+    gameInProgress = false;
+    answers = [];
+    keyColors = [];
+
+    let container = document.getElementById("game-grid");
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
+
+    updateScore();
+    updateKeys();
+    initGame(gameid++);
+}
+
+function newgame(e) {
+    if (gameInProgress) {
+        if (!confirm("Are you sure you want to start a new game?")) {
+            return;
+        }
+    }
+    resetGame();
+}
 
 function initGame(gid) {
     let thisGame = {
@@ -36,8 +67,6 @@ function initGame(gid) {
 function initBoard(gid) {
     let container = document.getElementById("game-grid");
 
-    let gamebox = document.createElement("div");
-    gamebox.className = "boardbox";
     let board = document.createElement("div");
     board.className = "game-board";
     board.id = "game" + gid;
@@ -53,8 +82,7 @@ function initBoard(gid) {
 
         board.appendChild(row);
     }
-    gamebox.appendChild(board);
-    container.appendChild(gamebox);
+    container.appendChild(board);
 }
 
 function shadeKeyBoard(letter, color) {
@@ -68,7 +96,7 @@ function shadeKeyBoard(letter, color) {
 
 function deleteLetter() {
     games.forEach(function(g) {
-        let gdoc = document.getElementById("game" + g.num);
+        let gdoc = document.getElementById(`game${g.num}`);
         let row = gdoc.getElementsByClassName("letter-row")[NUMBER_OF_GUESSES - g.guessesRemaining];
         let box = row.children[nextLetter - 1];
         box.textContent = "";
@@ -79,10 +107,11 @@ function deleteLetter() {
 }
 
 function checkGuess() {
+    gameInProgress = true;
     let gameOver = false;
 
     for (let g of games) {
-        let gdoc = document.getElementById("game" + g.num);
+        let gdoc = document.getElementById(`game${g.num}`);
         let row = gdoc.getElementsByClassName("letter-row")[NUMBER_OF_GUESSES - g.guessesRemaining]
         let guessString = '';
         let rightGuess = Array.from(g.answer);
@@ -96,7 +125,7 @@ function checkGuess() {
             return;
         }
 
-        if (!WORDS.includes(guessString) && !answers.includes(guessString)) {
+        if (!WORDS.includes(guessString) && !answers.includes(guessString) && !VALIDGUESSES.includes(guessString)) {
             toastr.error("Word not in list!");
             return;
         }
@@ -137,12 +166,12 @@ function checkGuess() {
 
         if (guessString === g.answer) {
             // TODO: Clear this board after? Award points?
-            toastr.success("You guessed right! Game over!");
+            let idx = games.indexOf(g);
+            toastr.success(`You guessed right! ${g.guessesRemaining} points!`);
             setTimeout(() => {
                 animateCSS(gdoc, 'zoomOut').then(() => {
                     gdoc.remove();
-                    let idx = games.indexOf(g);
-                    score += (idx + 1);
+                    score += g.guessesRemaining;
                     games.splice(idx, 1);
                     updateKeys();
                     updateScore();
@@ -158,6 +187,8 @@ function checkGuess() {
     }
     if (gameOver) {
         toastr.error("You've run out of guesses! Game over!");
+        showWords();
+        gameInProgress = false;
         return;
     } else {
         currentGuess = [];
@@ -168,9 +199,19 @@ function checkGuess() {
     }, 1500)
 }
 
+function showWords() {
+    for (let g of games) {
+        let gdoc = document.getElementById(`game${g.num}`);
+        let finalWord = document.createElement("h2");
+        finalWord.textContent = g.answer.toUpperCase();
+        //gdoc.insertBefore(finalWord, gdoc.firstChild);
+        gdoc.appendChild(finalWord);
+    }
+}
+
 function updateScore() {
-    document.getElementById("score").textContent = "Score: " + score;
-    document.title = "Forevle (" + score + ")";
+    document.getElementById("score").textContent = `Score: ${score}`;
+    document.title = `Forevle: ${score}`;
 }
 
 function updateKeys() {
@@ -207,7 +248,7 @@ function insertLetter(pressedKey) {
     }
     pressedKey = pressedKey.toLowerCase();
     games.forEach(function(g) {
-        let gdoc = document.getElementById("game" + g.num);
+        let gdoc = document.getElementById(`game${g.num}`);
 
         let row = gdoc.getElementsByClassName("letter-row")[NUMBER_OF_GUESSES - g.guessesRemaining];
         let box = row.children[nextLetter];
@@ -278,4 +319,21 @@ document.getElementById("keyboard-cont").addEventListener("click", (e) => {
     document.dispatchEvent(new KeyboardEvent("keyup", { 'key': key }))
 })
 
-initGame(gameid++);
+resetGame();
+window.onload = function() {
+    document.getElementById("newgamebtn").addEventListener("click", newgame);
+    let modal = document.getElementById("infomodal");
+    let btn = document.getElementById("infobtn");
+    let span = document.getElementsByClassName("close")[0];
+    btn.addEventListener("click", function() {
+        modal.style.display = "block";
+    });
+    span.addEventListener("click", function() {
+        modal.style.display = "none";
+    });
+    window.addEventListener("click", function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    });
+};

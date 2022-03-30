@@ -15,15 +15,21 @@
 </head>
 
 <body>
-    <h1>FOREVLE</h1>
+    <button style="float: right;" class="letter-box" id="infobtn">🛈</button>
+    <h1 style="clear: both;">FOREVLE</h1>
     <h2 id="score">Score: 0</h2>
 
-    <div id="game-grid">
+    <div class="gridcont">
+        <div id="game-grid">
 
+        </div>
+    </div>
+    <div class="widebox">
+        <button class="wide" id="newgamebtn">New Game</button>
     </div>
 
     <div id="keyboard-cont">
-        <div class="first-row">
+        <div class="keyboardrow">
             <button class="keyboard-button">q</button>
             <button class="keyboard-button">w</button>
             <button class="keyboard-button">e</button>
@@ -35,7 +41,7 @@
             <button class="keyboard-button">o</button>
             <button class="keyboard-button">p</button>
         </div>
-        <div class="second-row">
+        <div class="keyboardrow">
             <button class="keyboard-button">a</button>
             <button class="keyboard-button">s</button>
             <button class="keyboard-button">d</button>
@@ -46,7 +52,7 @@
             <button class="keyboard-button">k</button>
             <button class="keyboard-button">l</button>
         </div>
-        <div class="third-row">
+        <div class="keyboardrow">
             <button class="keyboard-button">Del</button>
             <button class="keyboard-button">z</button>
             <button class="keyboard-button">x</button>
@@ -63,9 +69,28 @@
         <a class="wide" href="http://theidesofmerch.com">Buy my merch</a>
     </div>
 
+
+    <div id="infomodal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>What is this?</h2>
+            </div>
+            <div class="modal-body">
+                <p>Like the other *dle games, guess the five letter english word. Letters in a guess that are grey are nowhere in the word, letters that are
+                    <span style="bgcolor: goldenrod">yellow</span> are in the word but not in the correct space, and letters that are <span style="bgcolor: olivedrab">green</span> are in the correct position in the word.
+                </p>
+                <p>With each new guess, another puzzle will be started to play simultaneously. When you correctly solve a puzzle, you will score points for how many guesses you had left out of seven total. The game is over when any word is not guessed in
+                    seven turns.
+                </p>
+            </div>
+        </div>
+    </div>
+
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/toastr.min.js"></script>
     <script src="js/script.js" type="module"></script>
+    <script src="js/modal.js"></script>
 </body>
 
 </html>
