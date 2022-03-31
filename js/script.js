@@ -143,44 +143,61 @@ function checkGuess() {
             return;
         }
 
+        let checked = [false, false, false, false, false];
+        // First, check for right letter in right place
         for (let i = 0; i < 5; i++) {
-            let letterColor = ''
             let box = row.children[i]
             let letter = currentGuess[i]
 
-            let letterPosition = rightGuess.indexOf(currentGuess[i])
-                // is letter in the correct guess
-            if (letterPosition === -1) {
-                letterColor = BLACK;
-            } else {
-                // now, letter is definitely in word
-                // if letter index and right guess index are the same
-                // letter is in the right position 
-                if (currentGuess[i] === rightGuess[i]) {
-                    // shade #009e73 
-                    letterColor = GREEN;
-                } else {
-                    // shade box #e69f00
-                    letterColor = YELLOW;
-                }
-
-                rightGuess[letterPosition] = "#"
+            if (currentGuess[i] === rightGuess[i]) {
+                checked[i] = true;
+                let delay = 250 * i;
+                setTimeout(() => {
+                    //flip box
+                    animateCSS(box, 'flipInY');
+                    //shade box
+                    box.style.backgroundColor = "dimgrey";
+                    box.classList.add("green");
+                }, delay);
+                rightGuess[i] = '#';
             }
+        }
 
+        // Then check what's left for wrong-place
+        for (let i = 0; i < 5; i++) {
+            if (checked[i]) { continue; }
+            let box = row.children[i]
+            let letter = currentGuess[i]
+            if (rightGuess.indexOf(currentGuess[i]) > -1) {
+                checked[i] = true;
+                rightGuess[rightGuess.indexOf(currentGuess[i])] = '#';
+                let delay = 250 * i;
+                setTimeout(() => {
+                    //flip box
+                    animateCSS(box, 'flipInY');
+                    //shade box
+                    box.style.backgroundColor = "dimgrey";
+                    box.classList.add("yellow");
+                }, delay);
+            }
+        }
+
+        // Then grey out the last ones
+        for (let i = 0; i < 5; i++) {
+            if (checked[i]) { continue; }
+            let box = row.children[i]
+            let letter = currentGuess[i]
             let delay = 250 * i;
             setTimeout(() => {
                 //flip box
                 animateCSS(box, 'flipInY');
                 //shade box
                 box.style.backgroundColor = "dimgrey";
-                if (letterColor == GREEN) {
-                    box.classList.add("green");
-                } else if (letterColor == YELLOW) {
-                    box.classList.add("yellow");
-                }
-                updateKeys();
-            }, delay)
+            }, delay);
         }
+        setTimeout(() => {
+            updateKeys();
+        }, 1250);
 
         if (guessString === g.answer) {
             // TODO: Clear this board after? Award points?
@@ -214,7 +231,7 @@ function checkGuess() {
     }
     setTimeout(() => {
         initGame(gameid++);
-    }, 1500)
+    }, 1750)
 }
 
 function showWords() {
