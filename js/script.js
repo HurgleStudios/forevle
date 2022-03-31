@@ -6,6 +6,9 @@ let nextLetter = 0;
 let gameid = 0;
 let score = 0;
 
+let eggflag = false;
+let eggonce = false;
+
 let games = [];
 let answers = [];
 let keyColors = [];
@@ -23,6 +26,7 @@ function resetGame() {
         container.removeChild(container.firstChild);
     }
 
+    eggflag = false;
     currentGuess = [];
     nextLetter = 0;
     gameid = 0;
@@ -122,6 +126,7 @@ function deleteLetter() {
 function checkGuess() {
     gameInProgress = true;
     let gameOver = false;
+    eggonce = false;
 
     for (let g of games) {
         let gdoc = document.getElementById(`game${g.num}`);
@@ -131,6 +136,22 @@ function checkGuess() {
 
         for (const val of currentGuess) {
             guessString += val
+        }
+
+        if (!eggonce) {
+            eggonce = true;
+            if (eggflag) {
+                if (guessString.toLowerCase() === 'artis') {
+                    toastr.success(`You found the easter egg! Opening my portfolio...`);
+                    setTimeout(() => {
+                        window.open("https://jartis.dev");
+                    }, 3000);
+                }
+            } else if (guessString.toLowerCase() === 'jason') {
+                eggflag = true;
+            } else {
+                eggflag = false;
+            }
         }
 
         if (guessString.length != 5) {

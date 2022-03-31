@@ -6756,6 +6756,7 @@ export const VALIDGUESSES = [
     'jarta',
     'jarul',
     'jasey',
+    'jason',
     'jaspe',
     'jasps',
     'jatos',
