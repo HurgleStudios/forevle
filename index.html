@@ -12,10 +12,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Averia+Sans+Libre&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="/res/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/res/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/res/favicon-16x16.png">
+    <link rel="manifest" href="/res/site.webmanifest">
+    <link rel="mask-icon" href="/res/safari-pinned-tab.svg" color="#333333">
+    <meta name="msapplication-TileColor" content="#333333">
+    <meta name="theme-color" content="#ffffff">
 </head>
 
 <body>
-    <button style="float: right; text-shadow:none;" class="letter-box" id="infobtn">ℹ</button>
+    <button style="float: right; text-shadow:none;" class="" id="infobtn">Help</button>
+    <button style="float: right; text-shadow:none;" class="" id="changelogbtn">Changelog</button>
+    <small style="float: right; text-shadow:none;">v1.2</small>
     <h1 style="clear: both;">FOREVLE</h1>
     <h2 id="score">Score: 0</h2>
 
@@ -69,7 +78,6 @@
         <a class="wide" href="http://theidesofmerch.com">Buy my merch</a>
     </div>
 
-
     <div id="infomodal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -86,6 +94,30 @@
             </div>
         </div>
     </div>
+
+    <div id="changelogmodal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>What's New</h2>
+            </div>
+            <div class="modal-body">
+                <p>v1.2</p>
+                <ul>
+                    <li>Add changelog and favicon</li>
+                    <li>Do not add new games on correct word guesses</li>
+                    <li>Added an easter egg because I could</li>
+                </ul>
+                <p>v1.1</p>
+                <ul>
+                    <li>Fixed a bug with new games preventing word submission</li>
+                    <li>Fixed letter checking to match Wordle behavior (mark greens first, handle dupes properly)</li>
+                    <li>Updated scoring system to use remaining guesses</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
 
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/toastr.min.js"></script>

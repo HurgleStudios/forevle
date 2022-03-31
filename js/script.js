@@ -127,6 +127,7 @@ function checkGuess() {
     gameInProgress = true;
     let gameOver = false;
     eggonce = false;
+    let addNewGame = true;
 
     for (let g of games) {
         let gdoc = document.getElementById(`game${g.num}`);
@@ -222,6 +223,7 @@ function checkGuess() {
 
         if (guessString === g.answer) {
             // TODO: Clear this board after? Award points?
+            addNewGame = false;
             let idx = games.indexOf(g);
             toastr.success(`You guessed right! ${g.guessesRemaining} points!`);
             setTimeout(() => {
@@ -250,9 +252,11 @@ function checkGuess() {
         currentGuess = [];
         nextLetter = 0;
     }
-    setTimeout(() => {
-        initGame(gameid++);
-    }, 1750)
+    if (addNewGame) {
+        setTimeout(() => {
+            initGame(gameid++);
+        }, 1750);
+    }
 }
 
 function showWords() {
@@ -385,5 +389,21 @@ window.onload = function() {
             modal.style.display = "none";
         }
     });
+
+    let cmodal = document.getElementById("changelogmodal");
+    let cbtn = document.getElementById("changelogbtn");
+    let cspan = document.getElementsByClassName("close")[0];
+    cbtn.addEventListener("click", function() {
+        cmodal.style.display = "block";
+    });
+    cspan.addEventListener("click", function() {
+        cmodal.style.display = "none";
+    });
+    window.addEventListener("click", function(event) {
+        if (event.target == cmodal) {
+            cmodal.style.display = "none";
+        }
+    });
+
     resetGame();
 };
