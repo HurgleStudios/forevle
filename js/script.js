@@ -231,6 +231,9 @@ function checkGuess() {
                     gdoc.remove();
                     score += g.guessesRemaining;
                     games.splice(idx, 1);
+                    if (games.length == 0) {
+                        addNewGame = true;
+                    }
                     updateKeys();
                     updateScore();
                 });
@@ -255,7 +258,7 @@ function checkGuess() {
     if (addNewGame) {
         setTimeout(() => {
             initGame(gameid++);
-        }, 1750);
+        }, 1500);
     }
 }
 

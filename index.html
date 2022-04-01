@@ -76,6 +76,24 @@
     <div class="footer">
         <p class="wide">&copy; 2022 J. Artis</p>
         <a class="wide" href="http://theidesofmerch.com">Buy my merch</a>
+        <p>
+            Support this page:
+            <span style="display: inline;" id="donate-button-container">
+                <span id="donate-button" style="display: inline;"></span>
+            <script src="https://www.paypalobjects.com/donate/sdk/donate-sdk.js" charset="UTF-8"></script>
+            <script>
+                PayPal.Donation.Button({
+                    env: 'production',
+                    hosted_button_id: 'EV6QGYGWADSJC',
+                    image: {
+                        src: 'https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif',
+                        alt: 'Donate with PayPal button',
+                        title: 'PayPal - The safer, easier way to pay online!',
+                    }
+                }).render('#donate-button');
+            </script>
+            </span>
+        </p>
     </div>
 
     <div id="infomodal" class="modal">
