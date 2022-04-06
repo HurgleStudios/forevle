@@ -363,6 +363,8 @@ document.addEventListener("keyup", (e) => {
 
 document.getElementById("keyboard-cont").addEventListener("click", (e) => {
     const target = e.target
+    e.preventDefault();
+    document.activeElement.blur();
 
     if (!target.classList.contains("keyboard-button")) {
         return
