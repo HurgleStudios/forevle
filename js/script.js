@@ -382,7 +382,7 @@ window.onload = function() {
     document.getElementById("newgamebtn").addEventListener("click", newgame);
     let modal = document.getElementById("infomodal");
     let btn = document.getElementById("infobtn");
-    let span = document.getElementsByClassName("close")[0];
+    let span = document.getElementsByClassName("infoclose")[0];
     btn.addEventListener("click", function() {
         modal.style.display = "block";
     });
@@ -397,7 +397,7 @@ window.onload = function() {
 
     let cmodal = document.getElementById("changelogmodal");
     let cbtn = document.getElementById("changelogbtn");
-    let cspan = document.getElementsByClassName("close")[0];
+    let cspan = document.getElementsByClassName("changelogclose")[0];
     cbtn.addEventListener("click", function() {
         cmodal.style.display = "block";
     });
